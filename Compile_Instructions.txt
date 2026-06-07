@@ -1,0 +1,11 @@
+Compiler and version: g++ (GCC) 16.1.1 20260430
+
+Command: 
+   g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./path/to/where/you/want/the/file
+
+Pt-br:
+
+Compilador e versão: g++ (GCC) 16.1.1 20260430
+
+Comando:
+   g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./caminho/para/onde/voce/quer/o/arquivo
