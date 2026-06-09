@@ -10,6 +10,30 @@ void printFilesInMemory(std::vector<std::string> mem){
    }
 }
 
+void djikstraPathPrint(const int startVertice, const int currentVertice, const std::vector<std::pair<float, int>> &djikstraResult){
+   int parentId = djikstraResult[currentVertice].second;
+
+   if(parentId == startVertice){
+      std::cout << startVertice << " -> " << currentVertice;
+      return;
+   }
+
+   if (parentId == -1){
+      if (djikstraResult[currentVertice].first == 0) {
+         std::cout << currentVertice; 
+      } else{
+         std::cout << "Não existe um caminho até este vértice\n";
+      }
+      return; 
+
+   }
+
+   djikstraPathPrint(startVertice, parentId, djikstraResult);
+
+   std::cout << " -> " << currentVertice;
+   return;
+}
+
 int main(){
    std::vector<Graph> graphMemory;
    std::vector<std::string> filesLoadedMemory, matrixesFileNamesLoadedMemory;
@@ -17,7 +41,7 @@ int main(){
    std::vector<bool> auxAdjacencyMatrix;
    std::vector<int> treePiVectorMemory;
    std::vector<std::pair<float, int>> djikstraMemory;
-   int control = 0, subcontrol = 0, thirdControl = 0;
+   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl;
    Graph auxGraph;
    char fileName[100];
 
@@ -40,7 +64,14 @@ int main(){
          << "\n" //Mantido isolado para facilitar adição de novas operações
       ;
 
-      if(!std::cin >> control) control = 99;
+      while(true){
+         if(std::cin >> control){
+            break;
+         } else{
+            std::cout << "Entrada inválida, tente novamente:\n";
+
+         }
+      }
 
       if(control == 1){
          std::string fileNameS;
@@ -127,7 +158,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if (subcontrol > 0){
+               } else if (subcontrol >= 0){
                   std::cout 
                      << "\n" 
                      << "-------------------------------------------\n"  
@@ -181,7 +212,7 @@ int main(){
                } else if (subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   graphMemory[subcontrol] >> auxAdjacencyMatrix;//Creates adjacency matrix
 
                   while(true){
@@ -329,7 +360,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   int8_t colTotal = sqrt(adjacencyMatrixMemory[subcontrol].size()), auxCol = 0;
                   std::cout << "\n";
                   for(bool b: adjacencyMatrixMemory[subcontrol]){
@@ -375,7 +406,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   degreeCalc(graphMemory[subcontrol]);
 
                   std::cout 
@@ -440,7 +471,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   if(!graphMemory[subcontrol].hasWeight || graphMemory[subcontrol].type == 'D'){
                      std::cout 
                         << "Dígrafos ou grafos que não têm peso na arestas não podem servir de entrada\n"
@@ -461,7 +492,7 @@ int main(){
                      }
                      std::cout << "\n";
 
-                     if(std::cin >> thirdControl && thirdControl > 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
                         treePiVectorMemory = primMST(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
 
                         for(int i = 0; i < treePiVectorMemory.size(); i++){
@@ -512,7 +543,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   while(true){
                      std::cout 
                         << "-------------------------------------------\n"
@@ -525,17 +556,85 @@ int main(){
                      }
                      std::cout << "\n";
 
-                     if(std::cin >> thirdControl && thirdControl > 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
                         djikstraMemory = djikstra(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
-                        
+
+                        std::cout << "\n";
                         for(const std::pair<float, int> &distPi : djikstraMemory){
                            std::cout << "Distância : " << distPi.first << " | Vértice pai: " << distPi.second << "\n"; 
                         }
 
                         std::cout 
+                           << "\n"
                            << "Algoritmo de Djikstra aplicado com sucesso no grafo selecionado\n"
                            << "\n"
                         ;
+
+                        while(true){
+                           std::cout 
+                              << "A partir dessa árvore gerada com djikstra, você quer escolher um vértice e descobrir se há um caminho até ele de um outro vértice?\n"
+                              << "IMPORTANTE: esta opção se repetirá até a saída voluntária do usuário\n"
+                              << "1 - Sim; 2 - Não\n"
+                           ;
+
+                           if(std::cin >> thirdControl){
+                              if(thirdControl == 1){
+                                 while(true){
+                                    std::cout 
+                                       << "Digite o id do vértice inicial desejado: \n"
+                                       << "-1 para sair desta opção\n"
+                                    ;
+
+                                    if(std::cin >> thirdControl && thirdControl >= 0){
+                                       if(thirdControl < graphMemory[subcontrol].verticeList.size()){
+                                          while(true){
+                                             std::cout 
+                                                << "Digite o id do vértice final desejado:\n"
+                                             ;
+
+                                             if(std::cin >> fourthControl){
+                                                if(fourthControl < graphMemory[subcontrol].verticeList.size()){
+                                                   std::cout << "\n";
+                                                   djikstraPathPrint(thirdControl, fourthControl, djikstraMemory);
+                                                   std::cout << "\n";
+                                                   break;
+
+                                                } else{
+                                                   std::cout << "Valor escolhido é maior que o maior ID existente. Tente novamente\n";
+
+                                                }
+                                             } else{
+                                                std::cout << "Entrada inválida, tente novamente:\n";
+
+                                             }
+                                          }
+
+                                       } else{
+                                          std::cout << "Valor escolhido é maior que o maior ID existente. Tente novamente\n";
+
+                                       }
+
+                                    } else if(thirdControl == -1){
+                                       break;
+
+                                    } else{
+                                       std::cout << "Entrada inválida, tente novamente:\n";
+
+                                    }
+
+                                 }
+
+                                 break;
+
+                              } else if(subcontrol == 2){
+                                 break;
+
+                              } else{
+                                 std::cout << "Entrada inválida, tente novamente:\n";
+
+                              }
+                           }
+                        }
 
                         break;
 

@@ -16,17 +16,21 @@ class Graph{
       Setup(v, e, t, hW);
    }
    
-   void Setup(int verts, int edges, char t, bool hW);
-
-   friend std::ostream& operator<<(std::ostream& os, Graph &gTP);
-
    Graph& operator>>(std::vector<bool>& adjM);
-
+   
+   void Setup(int verts, int edges, char t, bool hW);
+   
    friend void degreeCalc(Graph& gI);
+   
+   friend std::ostream& operator<<(std::ostream& os, Graph &gTP);
 
    friend std::vector<int> primMST(const Graph &gI, const Vertice &r);
 
    friend std::vector<std::pair<float, int>> djikstra(const Graph &gI, const Vertice &sP);
+
+   friend std::vector<std::pair<int, int>> BFS(const Graph &gI, const Vertice &sP);
+
+   friend std::vector<std::pair<float, int>> DFS(const Graph &gI, const Vertice &sP); //Definetely not final
 
 };
 

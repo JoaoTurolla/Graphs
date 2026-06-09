@@ -1,4 +1,5 @@
 #include "graph.hpp"
+#include <iostream>
 #include <queue>
 
 void Graph::Setup(int verts, int edges, char t, bool hasW){
@@ -10,7 +11,7 @@ void Graph::Setup(int verts, int edges, char t, bool hasW){
    verticeList.reserve(verticeNum);
 }
 
-std::ostream& operator<<(std::ostream& os, Graph& graphToPrint){//Prints the graph (does not end the line)
+std::ostream& operator<<(std::ostream& os, const Graph& graphToPrint){//Imprime o grafo (Não termina a linha com \n)
    os << "Total de vértices: " << graphToPrint.verticeNum 
       << " |Total de arestas: " << graphToPrint.edgeNum 
       << " |Tipo: " << graphToPrint.type 
@@ -19,7 +20,7 @@ std::ostream& operator<<(std::ostream& os, Graph& graphToPrint){//Prints the gra
    return os;
 }
 
-Graph& Graph::operator>>(std::vector<bool>& adjacencyMatrixOutput){//Creates the adjacency matrix based on the graph provided
+Graph& Graph::operator>>(std::vector<bool>& adjacencyMatrixOutput){//Cria a matriz de adjacência com base no grafo provido
    adjacencyMatrixOutput.reserve(this->verticeNum * this->verticeNum);
    for(const Vertice& v: this->verticeList){
       for(bool b: v.adjacencyArray){
@@ -30,7 +31,7 @@ Graph& Graph::operator>>(std::vector<bool>& adjacencyMatrixOutput){//Creates the
    return *this;
 } 
 
-void degreeCalc(Graph& graphInput){//Calculates the degree of all vertices; Stores in [0] if type == 'G' and stores in-degree in [0] out-degree in [1] if type == 'D'
+void degreeCalc(Graph& graphInput){//Calcula o grau de todos os vértices. Armazena em [0] se type == 'G' e armazena grau de entrada em [0] e grau de saída em [1] se type == 'D'
    int auxInDegree = 0, auxOutDegree = 0;
    std::pair<int, int> endDegree;
 
@@ -71,7 +72,7 @@ void degreeCalc(Graph& graphInput){//Calculates the degree of all vertices; Stor
 }
 
 std::vector<int> primMST(const Graph &graphInput,const Vertice &root){   
-   using anyEdge = std::pair<float, int>; //float -> Edge Weight, int -> target Vertice Idx
+   using anyEdge = std::pair<float, int>; //float -> Peso da aresta, int -> Índice do vértice final da aresta
 
    const float INF = std::numeric_limits<float>::infinity();
 
@@ -107,7 +108,7 @@ std::vector<int> primMST(const Graph &graphInput,const Vertice &root){
 }
 
 std::vector<std::pair<float, int>> djikstra(const Graph &graphInput, const Vertice &startingPoint){
-   using distPiPair = std::pair<float, int>;//float -> distance, int -> parent Vertice id/Idx
+   using distPiPair = std::pair<float, int>;//float -> distância, int -> ID/Índice do vértice pai
 
    const float INF = std::numeric_limits<float>::infinity();
 
@@ -141,3 +142,42 @@ std::vector<std::pair<float, int>> djikstra(const Graph &graphInput, const Verti
    return distPiVector;
 
 }
+
+std::vector<std::pair<int, int>> BFS(const Graph &graphInput, const Vertice &startingPoint){
+   using distPiPair = std::pair<int, int>;//int -> distância, int -> ID/Índice do vértice pai
+
+   const int INF = std::numeric_limits<int>::max();
+
+   std::vector<distPiPair> distPiVector(graphInput.verticeNum, {INF, -1});
+   std::vector<char> visitStatus(graphInput.verticeNum, 'w');
+   std::queue<int> q;
+
+   visitStatus[startingPoint.id] = 'g';
+   distPiVector[startingPoint.id] = {0, -1};
+
+   q.push(startingPoint.id);
+
+   while(!q.empty()){
+      int u = q.front();
+      q.pop();
+
+      for(const std::pair<float, int> &edge: graphInput.verticeList[u].allEdges){
+         int v = edge.second;
+         if(v == u) continue;//Arestas que tem como destino o vértice de origem devem ser pulados para evitar distâncias erráticas
+
+         if(visitStatus[v] == 'w'){
+            visitStatus[v] = 'g';
+            distPiVector[v].first = distPiVector[u].first + 1;
+            distPiVector[v].second = u;
+            q.push(v);
+            
+         }
+      }
+      
+      visitStatus[u] = 'b';
+
+   }
+
+   return distPiVector;
+}
+

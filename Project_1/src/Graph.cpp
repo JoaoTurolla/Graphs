@@ -49,7 +49,7 @@ void degreeCalc(Graph& graphInput){//Calculates the degree of all vertices; Stor
 
       }
 
-   } else {
+   } else{
       for(Vertice &v: graphInput.verticeList){
          auxInDegree = 0, auxOutDegree = 0;
          for(int i = 0; i < v.allEdges.size(); i++){
@@ -140,4 +140,42 @@ std::vector<std::pair<float, int>> djikstra(const Graph &graphInput, const Verti
 
    return distPiVector;
 
+}
+
+std::vector<std::pair<int, int>> BFS(const Graph &graphInput, const Vertice &startingPoint){
+   using distPiPair = std::pair<int, int>;//int -> distance, int -> ID/Index of the parent vertice
+
+   const int INF = std::numeric_limits<int>::max();
+
+   std::vector<distPiPair> distPiVector(graphInput.verticeNum, {INF, -1});
+   std::vector<char> visitStatus(graphInput.verticeNum, 'w');
+   std::queue<int> q;
+
+   visitStatus[startingPoint.id] = 'g';
+   distPiVector[startingPoint.id] = {0, -1};
+
+   q.push(startingPoint.id);
+
+   while(!q.empty()){
+      int u = q.front();
+      q.pop();
+
+      for(const std::pair<float, int> &edge: graphInput.verticeList[u].allEdges){
+         int v = edge.second;
+         if(v == u) continue;//Edges that have the origin vertice as the target vertice should be skipped to avoid adding +1 to the distance incorrectly 
+
+         if(visitStatus[v] == 'w'){
+            visitStatus[v] = 'g';
+            distPiVector[v].first = distPiVector[u].first + 1;
+            distPiVector[v].second = u;
+            q.push(v);
+            
+         }
+      }
+      
+      visitStatus[u] = 'b';
+
+   }
+
+   return distPiVector;
 }

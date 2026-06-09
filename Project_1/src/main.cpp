@@ -10,6 +10,30 @@ void printFilesInMemory(std::vector<std::string> mem){
    }
 }
 
+void djikstraPathPrint(const int startVertice, const int currentVertice, const std::vector<std::pair<float, int>> &djikstraResult){
+   int parentId = djikstraResult[currentVertice].second;
+
+   if(parentId == startVertice){
+      std::cout << startVertice << " -> " << currentVertice;
+      return;
+   }
+
+   if (parentId == -1){
+      if (djikstraResult[currentVertice].first == 0) {
+         std::cout << currentVertice; 
+      } else{
+         std::cout << "There is no path to this vertice\n";
+      }
+      return; 
+
+   }
+
+   djikstraPathPrint(startVertice, parentId, djikstraResult);
+
+   std::cout << " -> " << currentVertice;
+   return;
+}
+
 int main(){
    std::vector<Graph> graphMemory;
    std::vector<std::string> filesLoadedMemory, matrixesFileNamesLoadedMemory;
@@ -17,7 +41,7 @@ int main(){
    std::vector<bool> auxAdjacencyMatrix;
    std::vector<int> treePiVectorMemory;
    std::vector<std::pair<float, int>> djikstraMemory;
-   int control = 0, subcontrol = 0, thirdControl = 0;
+   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl;
    Graph auxGraph;
    char fileName[100];
 
@@ -523,9 +547,75 @@ int main(){
                         }
 
                         std::cout 
-                           << "Succesfully applied djikstra on the selected graph\n"
+                           << "Succesfully applied djikstra's algorithm on the selected graph\n"
                            << "\n"
                         ;
+
+                        while(true){
+                           std::cout 
+                              << "Based on this tree generated with djikstra's algorithm, do you want to choose a vertice to know if there is path leading to it from another vertice?\n"
+                              << "IMPORTANT: this option repeats until the user voluntarily exits\n"
+                              << "1 - Yes; 2 - No\n"
+                           ;
+
+                           if(std::cin >> thirdControl){
+                              if(thirdControl == 1){
+                                 while(true){
+                                    std::cout 
+                                       << "Type the ID of the starting vertice: \n"
+                                       << "-1 to leave this option\n"
+                                    ;
+
+                                    if(std::cin >> thirdControl && thirdControl >= 0){
+                                       if(thirdControl < graphMemory[subcontrol].verticeList.size()){
+                                          while(true){
+                                             std::cout 
+                                                << "Type the ID of the ending vertice:\n"
+                                             ;
+
+                                             if(std::cin >> fourthControl){
+                                                if(fourthControl < graphMemory[subcontrol].verticeList.size()){
+                                                   std::cout << "\n";
+                                                   djikstraPathPrint(thirdControl, fourthControl, djikstraMemory);
+                                                   std::cout << "\n";
+                                                   break;
+
+                                                } else{
+                                                   std::cout << "Chosen value is bigger than existent ID values. Try again\n";
+
+                                                }
+                                             } else{
+                                                std::cout << "Invalid input, try again:\n";
+
+                                             }
+                                          }
+
+                                       } else{
+                                          std::cout << "Chosen value is bigger than existent ID values. Try again\n";
+
+                                       }
+
+                                    } else if(thirdControl == -1){
+                                       break;
+
+                                    } else{
+                                       std::cout << "Invalid input, try again:\n";
+
+                                    }
+
+                                 }
+
+                                 break;
+
+                              } else if(subcontrol == 2){
+                                 break;
+
+                              } else{
+                                 std::cout << "Invalid input, try again:\n";
+
+                              }
+                           }
+                        }
 
                         break;
 
