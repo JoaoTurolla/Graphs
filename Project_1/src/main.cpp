@@ -151,7 +151,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if (subcontrol > 0){
+               } else if (subcontrol >= 0){
                   std::cout 
                      << "\n" 
                      << "-------------------------------------------\n"  
@@ -205,7 +205,7 @@ int main(){
                } else if (subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   graphMemory[subcontrol] >> auxAdjacencyMatrix;//Creates adjacency matrix
 
                   while(true){
@@ -343,7 +343,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   int8_t colTotal = sqrt(adjacencyMatrixMemory[subcontrol].size()), auxCol = 0;
                   std::cout << "\n";
                   for(bool b: adjacencyMatrixMemory[subcontrol]){
@@ -389,7 +389,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   degreeCalc(graphMemory[subcontrol]);
 
                   std::cout 
@@ -454,7 +454,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   if(!graphMemory[subcontrol].hasWeight || graphMemory[subcontrol].type == 'D'){
                      std::cout 
                         << "Digraphs or graphs without weighted edges are not supported\n"
@@ -475,7 +475,7 @@ int main(){
                      }
                      std::cout << "\n";
 
-                     if(std::cin >> thirdControl && thirdControl > 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
                         treePiVectorMemory = primMST(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
 
                         for(int i = 0; i < treePiVectorMemory.size(); i++){
@@ -526,7 +526,7 @@ int main(){
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol > 0){
+               } else if(subcontrol >= 0){
                   while(true){
                      std::cout 
                         << "-------------------------------------------\n"
@@ -539,7 +539,7 @@ int main(){
                      }
                      std::cout << "\n";
 
-                     if(std::cin >> thirdControl && thirdControl > 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
                         djikstraMemory = djikstra(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
                         
                         for(const std::pair<float, int> &distPi : djikstraMemory){
