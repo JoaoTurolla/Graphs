@@ -4,7 +4,7 @@
 #include "fileHandler.hpp"
 
 int main(){
-
+   //This main is to test the code that reads the files, there's a list on the Github repository with all the expected errors
    int errorFileQuantity = 18;
 
    Graph Test;

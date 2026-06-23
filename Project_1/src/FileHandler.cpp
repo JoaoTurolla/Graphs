@@ -120,7 +120,7 @@ std::istream& operator>>(std::istream& fileInput, Graph& graphToUpd){//Operador 
 
       }
       if(tempWeightB != 1 && tempWeightB != 0){ 
-         std::cerr << "Invalid input for weight" <<std::endl;
+         std::cerr << "Invalid input for weight (Must be 1 or 0)" <<std::endl;
          fileInput.setstate(std::ios::failbit);
          return fileInput;
 
@@ -135,7 +135,7 @@ std::istream& operator>>(std::istream& fileInput, Graph& graphToUpd){//Operador 
          return fileInput;
 
       } else if(tempTypeC != 'G' && tempTypeC != 'D'){
-         std::cerr << "Invalid type of Graph" <<std::endl;
+         std::cerr << "Invalid type of Graph (Must be G or D)" <<std::endl;
          fileInput.setstate(std::ios::failbit);
          return fileInput;
 

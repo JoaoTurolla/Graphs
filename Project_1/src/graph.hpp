@@ -30,7 +30,7 @@ class Graph{
 
    friend std::vector<std::pair<int, int>> BFS(const Graph &gI, const Vertice &sP);
 
-   friend std::vector<std::pair<float, int>> DFS(const Graph &gI, const Vertice &sP); //Definetely not final
+   friend std::vector<std::tuple<int, int, int>> DFS(const Graph &gI, const Vertice &sP);//int -> time of discovery, int -> time of finalization, int -> ID/Idx of parent Vertice
 
 };
 

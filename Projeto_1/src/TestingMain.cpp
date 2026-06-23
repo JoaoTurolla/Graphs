@@ -4,7 +4,7 @@
 #include "fileHandler.hpp"
 
 int main(){
-
+   //Esta main é para um teste do código que lê os arquivos, está disponiblizado no repositório do Github os erros esperados para cada iteração
    int errorFileQuantity = 18;
 
    Graph Test;

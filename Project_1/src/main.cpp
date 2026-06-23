@@ -41,26 +41,28 @@ int main(){
    std::vector<bool> auxAdjacencyMatrix;
    std::vector<int> treePiVectorMemory;
    std::vector<std::pair<float, int>> djikstraMemory;
-   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl;
+   std::vector<std::pair<int, int>> BFSMemory;
+   std::vector<std::tuple<int, int, int>> DFSMemory;
+   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl = 0;
    Graph auxGraph;
    char fileName[100];
 
    while(control != -1){
       std::cout 
          << "-------------------------------------------\n" 
+         << "ALL GRAPH OPERATIONS REQUIRE THAT THE GRAPH IS ADDED TO THE MEMORY FIRST"
          << "Your options are:\n"
          << "-1 - Close the program\n"
          << " 1 - Read a file to load your graph into the memory\n"
          << " 2 - Write your graph data to make a correctly formatted file\n"
-         << " 3 - Print a loaded graph on the console\n"
-         << " 4 - Create and/or load in memory the adjacency matrix of a graph loaded in memory\n" 
-         << " (You can opt to save the matrix in a file)\n"
-         << " 5 - Print a loaded matrix on the console\n"
+         << " 3 - Print a graph on the console\n"
+         << " 4 - Create and/or load in memory the adjacency matrix of a graph (You can opt to save the matrix in a file)\n"
+         << " 5 - Print an adjacency matrix on the console\n"
          << " 6 - Calculate the degree of each vertice\n"
-         << " 7 - Find the minimum spanning tree of a graph loaded in memory\n"
-         << " 8 - Apply Djikstra's algorithm to a graph loaded in memory\n"
-         << " 9 - \n"
-         << "10 - \n"
+         << " 7 - Find the minimum spanning tree of a graph\n"
+         << " 8 - Apply Djikstra's algorithm to a graph\n"
+         << " 9 - Apply BFS (breadth-first-search) to a graph starting from a chosen vertice\n"
+         << "10 - Apply DFS (depth-first-search) to a graph starting from a chosen vertice\n"
          << "\n" //Kept isolated to make it easier to add new options
       ;
 
@@ -100,7 +102,7 @@ int main(){
 
          std::cout 
             << "\n" 
-            << "Successfuly loaded the graph to the memory\n"
+            << "Successfully loaded the graph to the memory\n"
             << "\n"
          ;
 
@@ -260,7 +262,7 @@ int main(){
                            auxAdjacencyMatrix.clear();
 
                            std::cout 
-                              << "Succesfully created the adjacency matrix and loaded it in the memory\n"
+                              << "Successfully created the adjacency matrix and loaded it in the memory\n"
                               << "\n"
                            ;
                            break;
@@ -290,7 +292,7 @@ int main(){
                            auxAdjacencyMatrix.clear();
 
                            std::cout 
-                              << "Successfuly created the adjacency matrix and stored it in a file named: " << fileName << "\n"
+                              << "Successfully created the adjacency matrix and stored it in a file named: " << fileName << "\n"
                               << "\n"
                            ;
 
@@ -393,7 +395,7 @@ int main(){
                   degreeCalc(graphMemory[subcontrol]);
 
                   std::cout 
-                     << "Succesfully calculated all vertices degrees\n"
+                     << "Successfully calculated all vertices degrees\n"
                      << "\n"
                   ;
 
@@ -484,7 +486,7 @@ int main(){
                         std::cout << "\n";
 
                         std::cout 
-                           << "Succesfully created the minimum spanning tree\n"
+                           << "Successfully created the minimum spanning tree\n"
                            << "\n"
                         ;
 
@@ -547,13 +549,13 @@ int main(){
                         }
 
                         std::cout 
-                           << "Succesfully applied djikstra's algorithm on the selected graph\n"
+                           << "Successfully applied djikstra's algorithm on the selected graph\n"
                            << "\n"
                         ;
 
                         while(true){
                            std::cout 
-                              << "Based on this tree generated with djikstra's algorithm, do you want to choose a vertice to know if there is path leading to it from another vertice?\n"
+                              << "Based on this tree generated with djikstra's algorithm, do you want to choose a vertice to know if there is path leading to it from another vertice you choose?\n"
                               << "IMPORTANT: this option repeats until the user voluntarily exits\n"
                               << "1 - Yes; 2 - No\n"
                            ;
@@ -637,13 +639,132 @@ int main(){
                std::cin.clear();
                std::cin.ignore(std::numeric_limits<std::streamsize>::max());
                std::cout << "Invalid input, try again:\n";
-
             }
          }
 
       } else if(control == 9){
-          
+         while(true){
+            std::cout
+               << "-------------------------------------------\n"
+               << "On which graph do you want to aplly BFS? (Choose by index)\n"
+               << "-2 if you want to remember where each graph was saved\n"
+               << "-1 if you want to leave this option\n"
+               << "\n"  
+            ;
+
+            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+               if(subcontrol == -2){
+                  printFilesInMemory(filesLoadedMemory);
+               
+               } else if(subcontrol == -1){
+                  break;
+               
+               } else if (subcontrol >= 0){
+                  while(true){
+                     
+                     for(const Vertice &v: graphMemory[subcontrol].verticeList){
+                        std::cout << "Index: " << v.id << " | UserGivenName: " << v.userName << "\n";
+                     }
+                     std::cout << "\n";
+                     
+                     std::cout
+                        << "-------------------------------------------\n"
+                        << "Which vertice do you want to have as the starting point? (Choose by index / options above)\n"
+                        << "\n"
+                     ;
+
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                        BFSMemory = BFS(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
+                        break;
+
+                     } else{
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                        std::cout << "Invalid input, try again:\n";
+                     }
+
+                  }
+
+                  break;
+
+               } else{
+                  std::cin.clear();
+                  std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                  std::cout << "Invalid input, try again:\n"; 
+               }
+            }
+
+         }
+
       } else if(control == 10){
+         while(true){
+            std::cout 
+               << "-------------------------------------------\n"
+               << "On which graph do you want to aplly DFS? (Choose by index)\n"
+               << "-2 if you want to remember where each graph was saved\n"
+               << "-1 if you want to leave this option\n"
+               << "\n"
+            ;
+
+            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+               if(subcontrol == -2){
+                  printFilesInMemory(filesLoadedMemory);
+
+               } else if(subcontrol == -1){
+                  break;
+
+               } else if(subcontrol >= 0){
+                  while(true){
+                     for(const Vertice &v: graphMemory[subcontrol].verticeList){
+                        std::cout << "Index: " << v.id << " | UserGivenName: " << v.userName << "\n";
+                     }
+                     std::cout << "\n";
+                        
+                     std::cout
+                        << "-------------------------------------------\n"
+                        << "Which vertice do you want to have as the starting point? (Choose by index / options above)\n"
+                        << "\n"
+                     ;
+
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                        DFSMemory = DFS(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
+
+                        std::cout
+                           << "\n"
+                           << "DFS tree and times"
+                        ;
+
+                        int tempId = 0;
+
+                        for(const std::tuple<int, int, int> &DFSTuple: DFSMemory){
+                           std::cout
+                              << "\n"
+                              << "ID: " << tempId << " | Discovery time: " << std::get<0>(DFSTuple) << " | Finalization time: " << std::get<1>(DFSTuple) << " | Parent vertice: " << std::get<2>(DFSTuple);
+                           ;
+                           tempId++;
+                        }
+
+                        std::cout << "\n";
+
+                        break;
+
+                     } else {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                        std::cout << "Invalid input, try again:\n";
+                     }
+                  }
+
+                  break;
+
+               }
+
+            } else {
+               std::cin.clear();
+               std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+               std::cout << "Invalid input, try again:\n";
+            }
+         }
 
       } else if(control != -1){
          std::cout << "Invalid input, try again:\n";
@@ -651,6 +772,7 @@ int main(){
 
       subcontrol = 0;
       thirdControl = 0;
+      fourthControl = 0;
    }
 
 

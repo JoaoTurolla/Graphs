@@ -41,26 +41,28 @@ int main(){
    std::vector<bool> auxAdjacencyMatrix;
    std::vector<int> treePiVectorMemory;
    std::vector<std::pair<float, int>> djikstraMemory;
-   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl;
+   std::vector<std::pair<int, int>> BFSMemory;
+   std::vector<std::tuple<int, int, int>> DFSMemory;
+   int control = 0, subcontrol = 0, thirdControl = 0, fourthControl = 0;
    Graph auxGraph;
    char fileName[100];
 
    while(control != -1){
       std::cout 
          << "-------------------------------------------\n" 
+         << "TODAS AS OPERAÇÕES SOBRE GRAFOS REQUEREM QUE O GRAFO ESTEJA NA MEMÓRIA ANTES DE SEREM CHAMADAS"
          << "Suas opções são:\n"
          << "-1 - Fechar o programa\n"
          << " 1 - Ler um arquivo para carregar um grafo na memória\n"
          << " 2 - Escrever os dados de um grafo para criar um arquivo correspondente\n"
-         << " 3 - Visualizar um grafo carregado na memória pelo console\n"
-         << " 4 - Criar e/ou carregar na memória a matriz de adjacência de um grafo carregado na memória\n" 
-         << " (Você pode optar por salvar a matriz em um arquivo)\n"
-         << " 5 - Visualizar uma matrix carregada na memória pelo console\n"
-         << " 6 - Calcular o grau de cada vértice\n"
-         << " 7 - Encontrar a árvore geradora mínima de um grafo carregado na memória\n"
-         << " 8 - Aplicar o algoritmo de Djikstra em um grafo carregado na memória\n"
-         << " 9 - Realizar uma busca em largura em um grafo carregado na memória\n"
-         << "10 - Realizar uma busca em profundidade em um grafo carregado na memória\n"
+         << " 3 - Visualizar um grafo pelo console\n"
+         << " 4 - Criar e/ou carregar na memória a matriz de adjacência de um grafo (Você pode optar por salvar a matriz em um arquivo)\n"
+         << " 5 - Visualizar uma matrix de adjacência pelo console\n"
+         << " 6 - Calcular o grau de cada vértice de um grafo\n"
+         << " 7 - Encontrar a árvore geradora mínima de um grafo\n"
+         << " 8 - Aplicar o algoritmo de Djikstra em um grafo\n"
+         << " 9 - Realizar uma busca em largura (BFS) em um grafo\n"
+         << "10 - Realizar uma busca em profundidade (DFS) em um grafo\n"
          << "\n" //Mantido isolado para facilitar adição de novas operações
       ;
 
@@ -661,8 +663,128 @@ int main(){
          }
 
       } else if(control == 9){
+         while(true){
+            std::cout
+               << "-------------------------------------------\n"
+               << "Em qual grafo vocẽ quer aplicar BFS? (Escolha por índice)\n"
+               << "-2 se você quiser lembrar em qual índice cada grafo está\n"
+               << "-1 se você quiser sair dessa opção\n"
+               << "\n"  
+            ;
+
+            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+               if(subcontrol == -2){
+                  printFilesInMemory(filesLoadedMemory);
+               
+               } else if(subcontrol == -1){
+                  break;
+               
+               } else if (subcontrol >= 0){
+                  while(true){
+                     
+                     for(const Vertice &v: graphMemory[subcontrol].verticeList){
+                        std::cout << "Índice: " << v.id << " | Nome dado pelo usuário: " << v.userName << "\n";
+                     }
+                     std::cout << "\n";
+                     
+                     std::cout
+                        << "-------------------------------------------\n"
+                        << "Qual vértice você quer como seu ponto de partida? (Escolha por índice / opções acima)\n"
+                        << "\n"
+                     ;
+
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                        BFSMemory = BFS(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
+                        break;
+
+                     } else{
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                        std::cout << "Entrada inválida, tente novamente:\n";
+                     }
+
+                  }
+
+                  break;
+
+               } else{
+                  std::cin.clear();
+                  std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                  std::cout << "Entrada inválida, tente novamente:\n"; 
+               }
+            }
+
+         }
           
       } else if(control == 10){
+         while(true){
+            std::cout 
+               << "-------------------------------------------\n"
+               << "Em qual grafo vocẽ quer aplicar DFS? (Escolha por índice)\n"
+               << "-2 se você quiser lembrar em qual índice cada grafo está\n"
+               << "-1 se você quiser sair dessa opção\n"
+               << "\n"
+            ;
+
+            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+               if(subcontrol == -2){
+                  printFilesInMemory(filesLoadedMemory);
+
+               } else if(subcontrol == -1){
+                  break;
+
+               } else if(subcontrol >= 0){
+                  while(true){
+                     for(const Vertice &v: graphMemory[subcontrol].verticeList){
+                        std::cout << "Índice: " << v.id << " | Nome dado pelo usuário: " << v.userName << "\n";
+                     }
+                     std::cout << "\n";
+                        
+                     std::cout
+                        << "-------------------------------------------\n"
+                        << "Qual vértice você quer como ponto de partida? (Escolha por índice / opções acinma)\n"
+                        << "\n"
+                     ;
+
+                     if(std::cin >> thirdControl && thirdControl >= 0 && thirdControl < graphMemory[subcontrol].verticeList.size()){
+                        DFSMemory = DFS(graphMemory[subcontrol], graphMemory[subcontrol].verticeList[thirdControl]);
+
+                        std::cout
+                           << "\n"
+                           << "Árvore DFS e tempos de descoberta e finalização"
+                        ;
+
+                        int tempId = 0;
+
+                        for(const std::tuple<int, int, int> &DFSTuple: DFSMemory){
+                           std::cout
+                              << "\n"
+                              << "ID: " << tempId << " | Tempo de descoberta: " << std::get<0>(DFSTuple) << " | Tempo de finalização: " << std::get<1>(DFSTuple) << " | Vértice pai: " << std::get<2>(DFSTuple);
+                           ;
+                           tempId++;
+                        }
+
+                        std::cout << "\n";
+
+                        break;
+
+                     } else {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+                        std::cout << "Entrada inválida, tente novamente:\n";
+                     }
+                  }
+
+                  break;
+
+               }
+
+            } else {
+               std::cin.clear();
+               std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+               std::cout << "Entrada inválida, tente novamente:\n";
+            }
+         }
 
       } else if(control != -1){
          std::cout << "Entrada inválida, tente novamente:\n";

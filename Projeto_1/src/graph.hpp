@@ -20,9 +20,9 @@ class Graph{
    
    void Setup(int verts, int edges, char t, bool hW);
    
-   friend std::ostream& operator<<(std::ostream& os, const Graph &gTP);
-
    friend void degreeCalc(Graph& gI);
+   
+   friend std::ostream& operator<<(std::ostream& os, const Graph &gTP);
 
    friend std::vector<int> primMST(const Graph &gI, const Vertice &r);
 
@@ -30,7 +30,7 @@ class Graph{
 
    friend std::vector<std::pair<int, int>> BFS(const Graph &gI, const Vertice &sP);
 
-   friend std::vector<std::pair<float, int>> DFS(const Graph &gI, const Vertice &sP);
+   friend std::vector<std::tuple<int, int, int>> DFS(const Graph &gI, const Vertice &sP);//int -> tempo de descoberta, int -> tempo de finalização, int -> ID/Índice do vértice pai
 
 };
 

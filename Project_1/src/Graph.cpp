@@ -1,5 +1,13 @@
 #include "graph.hpp"
 #include <queue>
+#include <iostream>
+#include <stack>
+
+using distPiPair_1 = std::pair<float, int>;//float -> distance, int -> ID/Index of the parent vertice
+using distPiPair_2 = std::pair<int, int>;//int -> distance, int -> ID/Index of the parent vertice
+
+const int INF_I = std::numeric_limits<int>::max();
+const float INF_F = std::numeric_limits<float>::infinity();
 
 void Graph::Setup(int verts, int edges, char t, bool hasW){
    verticeNum = verts;
@@ -73,11 +81,9 @@ void degreeCalc(Graph& graphInput){//Calculates the degree of all vertices; Stor
 std::vector<int> primMST(const Graph &graphInput,const Vertice &root){   
    using anyEdge = std::pair<float, int>; //float -> Edge Weight, int -> target Vertice Idx
 
-   const float INF = std::numeric_limits<float>::infinity();
-
    std::vector<bool> inMST(graphInput.verticeNum, false);
    std::vector<int> piVector(graphInput.verticeNum, -1);
-   std::vector<float> keyVector(graphInput.verticeNum, INF); 
+   std::vector<float> keyVector(graphInput.verticeNum, INF_F); 
    std::priority_queue<anyEdge, std::vector<anyEdge>, std::greater<anyEdge>> pq;
 
    pq.push({0, root.id});
@@ -107,13 +113,9 @@ std::vector<int> primMST(const Graph &graphInput,const Vertice &root){
 }
 
 std::vector<std::pair<float, int>> djikstra(const Graph &graphInput, const Vertice &startingPoint){
-   using distPiPair = std::pair<float, int>;//float -> distance, int -> parent Vertice id/Idx
-
-   const float INF = std::numeric_limits<float>::infinity();
-
-   std::vector<distPiPair> distPiVector(graphInput.verticeNum, {INF, -1});
+   std::vector<distPiPair_1> distPiVector(graphInput.verticeNum, {INF_F, -1});
    std::vector<bool> visited(graphInput.verticeNum, false);
-   std::priority_queue<distPiPair, std::vector<distPiPair>, std::greater<distPiPair>> pq;
+   std::priority_queue<distPiPair_1, std::vector<distPiPair_1>, std::greater<distPiPair_1>> pq;
 
    distPiVector[startingPoint.id].first = 0.0f;
    pq.push({0, startingPoint.id});
@@ -143,11 +145,7 @@ std::vector<std::pair<float, int>> djikstra(const Graph &graphInput, const Verti
 }
 
 std::vector<std::pair<int, int>> BFS(const Graph &graphInput, const Vertice &startingPoint){
-   using distPiPair = std::pair<int, int>;//int -> distance, int -> ID/Index of the parent vertice
-
-   const int INF = std::numeric_limits<int>::max();
-
-   std::vector<distPiPair> distPiVector(graphInput.verticeNum, {INF, -1});
+   std::vector<distPiPair_2> distPiVector(graphInput.verticeNum, {INF_I, -1});
    std::vector<char> visitStatus(graphInput.verticeNum, 'w');
    std::queue<int> q;
 
@@ -156,9 +154,17 @@ std::vector<std::pair<int, int>> BFS(const Graph &graphInput, const Vertice &sta
 
    q.push(startingPoint.id);
 
+   std::cout 
+      << "\n"
+      << "Visit order: <<"
+      << "\n"
+   ;
+
    while(!q.empty()){
       int u = q.front();
       q.pop();
+
+      std::cout << u << " -> ";
 
       for(const std::pair<float, int> &edge: graphInput.verticeList[u].allEdges){
          int v = edge.second;
@@ -177,5 +183,64 @@ std::vector<std::pair<int, int>> BFS(const Graph &graphInput, const Vertice &sta
 
    }
 
+   std::cout << "END\n";
+
    return distPiVector;
+}
+
+std::vector<std::tuple<int, int, int>> DFS(const Graph &graphInput, const Vertice &startingPoint){
+   using DFSTuple = std::tuple<int, int, int>;//int -> time of discovery, int -> time of finalization, int -> ID/Idx of parent Vertice
+   
+   std::vector<char> visitStatus(graphInput.verticeNum, 'w');
+   std::vector<DFSTuple> DFSReturn(graphInput.verticeNum, {0, 0, -1});
+   std::stack<int> s;
+   int timer = 0;
+
+   s.push(startingPoint.id);
+   visitStatus[startingPoint.id] = 'g';
+   timer++;
+   
+   std::get<0>(DFSReturn[startingPoint.id]) = timer;
+
+   std::cout
+      << "\n"
+      << "Visit order:"
+      <<"\n"
+   ;
+
+   while(!s.empty()){
+      int u = s.top();
+      bool divedDeeper = false;
+
+      std::cout << u << " -> ";
+
+      for(const std::pair<float, int> &edge: graphInput.verticeList[u].allEdges){
+         int v = edge.second;
+
+         if(visitStatus[v] == 'w'){
+            visitStatus[v] = 'g';
+            std::get<2>(DFSReturn[v]) = u;
+            
+            timer++;
+            std::get<0>(DFSReturn[v]) = timer;
+            
+            s.push(v);
+            divedDeeper = true;
+
+            break;
+         }
+      }
+
+      if(!divedDeeper){
+         s.pop();
+         visitStatus[u] = 'b';
+
+         timer++;
+         std::get<1>(DFSReturn[u]) = timer;
+      }
+   }
+
+   std::cout << "END\n";
+   
+   return DFSReturn;
 }
