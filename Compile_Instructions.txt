@@ -1,11 +1,38 @@
 Compiler and version: g++ (GCC) 16.1.1 20260430
 
-Command: 
-   g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./path/to/where/you/want/the/file
+1. Download the directory src/
+
+2. Open the terminal in that directory and run the command: 
+   	g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./path/to/where/you/want/the/file/andNameit
+
+-------------------------------------------------------------------------------------------------------------
+
+For the TestingMain.cpp you downloaded together from src/
+
+1. Download the directory errorFiles/ and put it in the same directory as src/
+
+2. Open the terminal in that directory and run the command:
+	g++ TestingMain.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o fileName
+
+The TestingMain executable MUST be in the same directory as errorFiles/ (NOT INSIDE IT) otherwise it will not work
+
 
 Pt-br:
 
 Compilador e versão: g++ (GCC) 16.1.1 20260430
 
-Comando:
-   g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./caminho/para/onde/voce/quer/o/arquivo
+1. Instale a pasta src/
+
+2. Abra o terminal na pasta em que src/ foi instalado e digite o comando:
+	g++ main.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o ./caminho/para/onde/voce/quer/o/arquivo/nomeDoArquivo
+
+-------------------------------------------------------------------------------------------------------------
+
+Para a TestingMain.cpp que foi instalada junto na pasta src/
+
+1. Instale a pasta errorFiles/ e coloque-a na mesma pasta que src/ foi instalado
+
+2. Abra o terminal nesta pasta e digite o comando:
+	g++ TestingMain.cpp Graph.cpp Vertice.cpp FileHandler.cpp -o nomeDoArquivo
+
+O executável da TestingMain PRECISA estar na mesma pasta em que se encontra errorFiles/ (NÃO DENTRO DELA), do contrário ele não funcionará 

@@ -1,0 +1,78 @@
+English
+
+1: Vertice count can never be negative
+
+2: Vertice overflow
+
+3: Vertice underflow
+
+4: Decimals and/or letters are not allowed in the vertice camp
+
+5: Vertice count is too big
+
+6: Edge count can never be negative
+
+7: Edge overflow
+
+8: Edge underflow
+
+9: Decimals and/or letters are not allowed in the edge camp
+
+10: Edge count is too big
+
+11: Invalid type of Graph (Must be G or D)
+
+12: Type was not provided as a character
+
+13: Invalid input for weight (Must be 1 or 0)
+
+14: Weight is too big
+
+15: CRITICAL ERROR: missing edge weight on line: 1
+
+16: Improper declaration of edge weight
+
+17: Improper declaration of edge weight
+
+18: An empty graph can't possibly have any edges. Edge count has been automatically changed to 0
+
+-------------------------------------------------------------------------------------------------------------
+
+Portuguese
+
+1: Total de vértices nunca pode ser negativo
+
+2: Vertice overflow
+
+3: Vertice underflow
+
+4: Decimais e/ou letras não permitidos no total de vértices
+
+5: Quantidade de vértices e grande demais
+
+6: Total de arestas nunca pode ser negativo
+
+7: Edge overflow
+
+8: Edge underflow
+
+9: Decimais e/ou letras não são permitidos no total de arestas
+
+10: Quantidade de arestas é grande demais
+
+11: Tipo inválido de grafo (Deve ser G ou D)
+
+12: Tipo não foi entregue como um caractere
+
+13: Entrada inválida para o peso (Deve ser 1 ou 0)
+
+14: Valor no campo condizente ao peso é grande demais
+
+15: ERRO CRÍTICO: peso da aresta não encontrado na linha: 1
+
+16: Declaração imprópria do peso da aresta
+
+17: Declaração imprópria do peso da aresta
+
+18: Um grafo vazio não pode ter arestas. Total de arestas automaticamente recebeu o valor 0
+
