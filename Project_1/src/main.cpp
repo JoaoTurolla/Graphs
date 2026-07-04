@@ -513,9 +513,6 @@ int main(){
                   std::cout << "Invalid input, try again:\n";
 
                }
-               
-               break;
-
             }
          }
 

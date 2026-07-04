@@ -523,9 +523,6 @@ int main(){
                   std::cout << "Entrada inválida, tente novamente:\n";
 
                }
-               
-               break;
-
             }
          }
 
