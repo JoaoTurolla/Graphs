@@ -50,7 +50,7 @@ int main(){
    while(control != -1){
       std::cout 
          << "-------------------------------------------\n" 
-         << "TODAS AS OPERAÇÕES SOBRE GRAFOS REQUEREM QUE O GRAFO ESTEJA NA MEMÓRIA ANTES DE SEREM CHAMADAS"
+         << "TODAS AS OPERAÇÕES SOBRE GRAFOS REQUEREM QUE O GRAFO ESTEJA NA MEMÓRIA ANTES DE SEREM CHAMADAS\n"
          << "Suas opções são:\n"
          << "-1 - Fechar o programa\n"
          << " 1 - Ler um arquivo para carregar um grafo na memória\n"

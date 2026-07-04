@@ -50,7 +50,7 @@ int main(){
    while(control != -1){
       std::cout 
          << "-------------------------------------------\n" 
-         << "ALL GRAPH OPERATIONS REQUIRE THAT THE GRAPH IS ADDED TO THE MEMORY FIRST"
+         << "ALL GRAPH OPERATIONS REQUIRE THAT THE GRAPH IS ADDED TO THE MEMORY FIRST\n"
          << "Your options are:\n"
          << "-1 - Close the program\n"
          << " 1 - Read a file to load your graph into the memory\n"
