@@ -289,6 +289,8 @@ bool graphInfoReading(const char* fileName, Graph &graphToUpd){//Utiliza dos ope
       // std::cout << "DEBUG: GraphVertNum: " << graphToUpd.verticeNum << " | GraphEdgeNum: " << graphToUpd.edgeNum
       // << " | GraphType: " << graphToUpd.type << " | GraphWeightBool: " << graphToUpd.hasWeight <<std::endl;
 
+      if(graphToUpd.verticeNum == 0) return true;
+
       std::pair<int, float> edge, reverseEdge;
 
       while(file >> testVertices){
@@ -436,6 +438,8 @@ bool digraphInfoReading(const char* fileName, Graph &graphToUpd){//Utiliza dos o
 
       // std::cout << "DEBUG: GraphVertNum: " << graphToUpd.verticeNum << " | GraphEdgeNum: " << graphToUpd.edgeNum
       // << " | GraphType: " << graphToUpd.type << " | GraphWeightBool: " << graphToUpd.hasWeight <<std::endl;
+
+      if(graphToUpd.verticeNum == 0) return true;
 
       std::pair<int, float> edge;
 

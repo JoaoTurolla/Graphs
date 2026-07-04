@@ -69,7 +69,10 @@ int main(){
       while(true){
          if(std::cin >> control){
             break;
+            
          } else{
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max());
             std::cout << "Entrada inválida, tente novamente:\n";
 
          }
@@ -153,14 +156,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if (subcontrol >= 0){
+               } else if (subcontrol >= 0 && subcontrol < graphMemory.size()){
                   std::cout 
                      << "\n" 
                      << "-------------------------------------------\n"  
@@ -207,14 +210,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if (subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < graphMemory.size()){
                   graphMemory[subcontrol] >> auxAdjacencyMatrix;//Creates adjacency matrix
 
                   while(true){
@@ -355,14 +358,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < adjacencyMatrixMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(matrixesFileNamesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < adjacencyMatrixMemory.size()){
                   int8_t colTotal = sqrt(adjacencyMatrixMemory[subcontrol].size()), auxCol = 0;
                   std::cout << "\n";
                   for(bool b: adjacencyMatrixMemory[subcontrol]){
@@ -401,14 +404,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < graphMemory.size()){
                   degreeCalc(graphMemory[subcontrol]);
 
                   std::cout 
@@ -466,14 +469,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < graphMemory.size()){
                   if(!graphMemory[subcontrol].hasWeight || graphMemory[subcontrol].type == 'D'){
                      std::cout 
                         << "Dígrafos ou grafos que não têm peso na arestas não podem servir de entrada\n"
@@ -538,14 +541,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < graphMemory.size()){
                   while(true){
                      std::cout 
                         << "-------------------------------------------\n"
@@ -672,14 +675,14 @@ int main(){
                << "\n"  
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
                
                } else if(subcontrol == -1){
                   break;
                
-               } else if (subcontrol >= 0){
+               } else if (subcontrol >= 0 && subcontrol < graphMemory.size()){
                   while(true){
                      
                      for(const Vertice &v: graphMemory[subcontrol].verticeList){
@@ -726,14 +729,14 @@ int main(){
                << "\n"
             ;
 
-            if(std::cin >> subcontrol && subcontrol < graphMemory.size()){
+            if(std::cin >> subcontrol){
                if(subcontrol == -2){
                   printFilesInMemory(filesLoadedMemory);
 
                } else if(subcontrol == -1){
                   break;
 
-               } else if(subcontrol >= 0){
+               } else if(subcontrol >= 0 && subcontrol < graphMemory.size()){
                   while(true){
                      for(const Vertice &v: graphMemory[subcontrol].verticeList){
                         std::cout << "Índice: " << v.id << " | Nome dado pelo usuário: " << v.userName << "\n";
